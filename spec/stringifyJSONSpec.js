@@ -9,6 +9,7 @@ describe("stringifyJSON", function(){
     });
 
     weirdObjects.forEach(function(obj){
+      debugger;
       var result = stringifyJSON(obj);
       var expected = JSON.stringify(obj);
       expect(result).toEqual(expected);

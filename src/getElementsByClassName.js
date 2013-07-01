@@ -1,20 +1,18 @@
-// If life was easy, we could just do things the easy way:
-// var getElementsByClassName = function (className) {
-//   return document.getElementsByClassName(className);
-// };
+// A recursive function to return an array of elements that match a given class in the DOM
 
-// But in stead we're going to implement it from scratch:
 var getElementsByClassName = function (className) {
-  var result = [];
-  function inspect(element) {
-    var obj = element.childNodes;
-    for (var i = 0; i < obj.length; i++) {
-      if (obj[i].classList !== undefined && obj[i].classList.contains(className)) {
-        result.push(obj[i]);
-      }
-      if (obj[i].hasChildNodes) { inspect(obj[i]); }
+    var result = [];
+    function inspect(element) {
+        var children = element.children;
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].classList.contains(className)) {
+                result.push(children[i]);
+            }
+            if (children[i].hasChildNodes) {
+                inspect(children[i]);
+            }
+        }
     }
-  }
-  inspect (document.body);
-  return result;
+    inspect (document.body);
+    return result;
 };
