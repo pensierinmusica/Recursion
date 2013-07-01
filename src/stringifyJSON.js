@@ -1,29 +1,20 @@
-// this is what you would do if you liked things to be easy:
-// var stringifyJSON = JSON.stringify;
+// A recursive function to convert JSON objects into strings
 
-// but you don't so you're going to have to write it from scratch:
-var stringifyJSON = function (obj) {
-  if (typeof obj === 'string') {
-    return '"' + obj + '"' ;
-  } else if (Array.isArray(obj)) {
-    return "[" + _(obj).map(stringifyJSON).join(',') + "]";
-  } else if (typeof obj === 'object') {
-      if (obj === null) {
-        return 'null';
-      } else {
-        var result = [];
-        _(obj).each(function(value, key) {
-          if (typeof value !== 'function' && typeof value !== 'undefined') {
-             result.push(stringifyJSON(key) + ":" + stringifyJSON(value));
-          }
-        });
-        return "{" + result.join(',') +  "}";
+var stringifyJSON = function (item) {
+  if (typeof item === 'string') {
+    return '"' + item + '"' ;
+  } else if (Array.isArray(item)) {
+    return "[" + _(item).map(stringifyJSON).join(',') + "]";
+  } else if (typeof item === 'object' && item !== null) {
+    var result = [];
+    _(item).each(function(value, key) {
+      if (typeof value !== 'function' && typeof value !== 'undefined') {
+        result.push(stringifyJSON(key) + ":" + stringifyJSON(value));
       }
-  } else if (obj === 'undefined') {
-    return '';
-  } else if (typeof obj === 'function') {
-    return '';
+    });
+    return "{" + result.join(',') +  "}";
   } else {
-    return obj + '';
+    return item + '';
   }
 };
+
